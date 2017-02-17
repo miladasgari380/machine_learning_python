@@ -1,6 +1,8 @@
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
+import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
 
 iris = load_iris()
 print(iris['data'].shape)
@@ -31,4 +33,21 @@ for i in range(3):
             ax[i, j].set_ylabel(iris['feature_names'][i + 1])
         if(j > i):
             ax[i, j].set_visible(False)
-plt.show()
+# plt.show()
+
+# KNN
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X_train, y_train)
+print(knn)
+
+# make prediction using this model
+X_new = np.array([[5, 2.9, 1, 0.2]])
+prediction = knn.predict(X_new)
+print(str(prediction[0])+": which means: "+str(iris['target_names'][prediction]))
+
+# Evaluation
+y_pred = knn.predict(X_test)
+accuracy = np.mean(y_pred == y_test)
+# Or
+accuracy = knn.score(X_test, y_test)
+print(accuracy)
